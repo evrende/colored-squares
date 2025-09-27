@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<!-- nineSquares.html
+
+Copyright (c) 2025 evrende
+under the MIT License
+
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <title>nine squares</title>
+    <style>
+      body {
+        background: #333;
+        margin: 180px 0px 10px;
+        text-align: center;
+      }
+      button {
+        background: #444;
+        border-radius: 12px;
+        border-style: solid;
+        border-width: 0;
+        height: 72px;
+        margin: 7px 5px;
+        width: 72px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <button id="s11"></button>
+    <button id="s12"></button>
+    <button id="s13"></button>
+
+    <br>
+
+    <button id="s21"></button>
+    <button id="s22"></button>
+    <button id="s23"></button>
+
+    <br>
+
+    <button id="s31"></button>
+    <button id="s32"></button>
+    <button id="s33"></button>
+
+    <script>
+      // define elements to color:
+      let squares = document.querySelectorAll('button');
+
+      // define color codes:
+      const blue = "449", gold = "ca2", red = "b33";
+
+      // set a counter to regulate rowsCols function:
+      let counter = 0;
+
+      document.addEventListener("keyup", callFiller);
+
+      function callFiller(event) {
+        // decides which function to call
+        if (event.key === "Enter") {fillSquare();}
+        else if (event.key === " ") {rowsCols();}
+      } // " " means space bar
+
+      function fillSquare() {
+        // make 3 buttons blue, 3 gold, 3 red
+        // let the assignment otherwise be random
+        let colors = [blue, blue, blue,
+          gold, gold, gold, red, red, red];
+
+        for (let square of squares) {
+          // get an index:
+          let index = Math.floor((colors.length) * Math.random());
+          // assign corresponding color to a square:
+          square.style.background = "#" + colors[index];
+          // reduce the array:
+          if (index + 1 < colors.length) {
+            colors = colors.slice(0, index).concat(colors.slice(index + 1));
+          } else {colors = colors.slice(0, index);} // index at last pos
+        }
+      }
+
+      function rowsCols() {
+        // show rows or columns of same color
+        counter++;
+        // set fund of colors:
+        let bgr = [blue, gold, red];
+        // randomly choose an index:
+        let index = Math.floor((bgr.length) * Math.random());
+
+        // set code for rows/cols:
+        const rc = (counter % 2 === 1) ? 1 : 2;
+        // color as needed:
+        for (let i = 1; i < 4; i++) {
+          for (let square of squares) {
+            if (square.id[rc] == i) {
+              // set color:
+              square.style.background = "#" + bgr[index];
+            }
+          }
+          // reduce the array:
+          if (index + 1 < bgr.length) {
+            bgr = bgr.slice(0, index).concat(bgr.slice(index + 1));
+          } else {bgr = bgr.slice(0, index);}
+          // get new index:
+          index = Math.floor((bgr.length) * Math.random());
+        }
+      }
+    </script>
+  </body>
+</html>
